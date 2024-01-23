@@ -293,9 +293,16 @@ void Lexer::lex_float(full_token_t* tok, cell_t whole) {
     }
 
     /* floating point */
-    float value = (float)fnum;
-    tok->numeric_value = FloatCellUnion(value).cell;
-    tok->id = tRATIONAL;
+    char fl = peek();
+    if (fl == 'f') {
+        advance();
+        float value = (float)fnum;
+        tok->numeric_value = FloatCellUnion(value).cell;
+        tok->id = tRATIONAL;
+    } else {    
+        tok->numeric_value = FloatCellUnion(fnum).cell;
+        tok->id = tDOUBLE;
+    }
 }
 
 int Lexer::preproc_expr(cell* val, Type** type) {
@@ -1029,6 +1036,8 @@ void Lexer::packedstring_char(std::string* data) {
  *     tNUMBER        the value of the number is return in "lexvalue".
  *     tRATIONAL      the value is in IEEE 754 encoding or in fixed point
  *                    encoding in "lexvalue".
+ *     tDOUBLE        the value is in IEEE 754 encoding or in fixed point
+ *                    encoding in "lexvalue", using 64-bit precision.
  *     tSYMBOL        the first sNAMEMAX characters of the symbol are
  *                    stored in a buffer, a pointer to this buffer is
  *                    returned in "lexsym".
@@ -1102,7 +1111,6 @@ const char* sc_tokens[] = {"*=",
                            "defined",
                            "delete",
                            "do",
-                           "double",
                            "else",
                            "enum",
                            "exit",
@@ -1191,6 +1199,7 @@ const char* sc_tokens[] = {"*=",
                            ";",
                            "-integer value-",
                            "-float value-",
+                           "-double value-",
                            "-identifier-",
                            "-label-",
                            "-string-",
@@ -1268,7 +1277,6 @@ IsUnimplementedKeyword(int token)
         case tAS:
         case tCATCH:
         case tCAST_TO:
-        case tDOUBLE:
         case tEXPLICIT:
         case tFINALLY:
         case tFOREACH:

@@ -58,6 +58,14 @@ FloatCtor(IPluginContext* pCtx, const cell_t* params)
 }
 
 static cell_t
+FloatToDouble(IPluginContext* pCtx, const cell_t* params)
+{
+  float val = static_cast<float>(params[1]);
+
+  return sp_dbtoc((double)val);
+}
+
+static cell_t
 FloatAdd(IPluginContext* pCtx, const cell_t* params)
 {
   float val = sp_ctof(params[1]) + sp_ctof(params[2]);
@@ -142,8 +150,111 @@ FloatNot(IPluginContext* pCtx, const cell_t* params)
   return val ? 0 : 1;
 }
 
+static cell_t
+DoubleCtor(IPluginContext* pCtx, const cell_t* params)
+{
+  double val = static_cast<double>(params[1]);
+
+  return sp_dbtoc(val);
+}
+
+static cell_t
+DoubleToFloat(IPluginContext* pCtx, const cell_t* params)
+{
+  double val = static_cast<double>(params[1]);
+
+  return sp_ftoc((float)val);
+}
+
+static cell_t
+DoubleAdd(IPluginContext* pCtx, const cell_t* params)
+{
+  double val = sp_ctodb(params[1]) + sp_ctodb(params[2]);
+
+  return sp_dbtoc(val);
+}
+
+static cell_t
+DoubleSub(IPluginContext* pCtx, const cell_t* params)
+{
+  double val = sp_ctodb(params[1]) - sp_ctodb(params[2]);
+
+  return sp_dbtoc(val);
+}
+
+static cell_t
+DoubleMul(IPluginContext* pCtx, const cell_t* params)
+{
+  double val = sp_ctodb(params[1]) * sp_ctodb(params[2]);
+
+  return sp_dbtoc(val);
+}
+
+static cell_t
+DoubleDiv(IPluginContext* pCtx, const cell_t* params)
+{
+  double val = sp_ctodb(params[1]) / sp_ctodb(params[2]);
+
+  return sp_dbtoc(val);
+}
+
+static cell_t
+DoubleMod(IPluginContext* pCtx, const cell_t* params)
+{
+  double val = fmod(sp_ctodb(params[1]), sp_ctodb(params[2]));
+
+  return sp_dbtoc(val);
+}
+
+static cell_t
+DoubleGt(IPluginContext* pCtx, const cell_t* params)
+{
+  return !!(sp_ctodb(params[1]) > sp_ctodb(params[2]));
+}
+
+static cell_t
+DoubleGe(IPluginContext* pCtx, const cell_t* params)
+{
+  return !!(sp_ctodb(params[1]) >= sp_ctodb(params[2]));
+}
+
+static cell_t
+DoubleLt(IPluginContext* pCtx, const cell_t* params)
+{
+  return !!(sp_ctodb(params[1]) < sp_ctodb(params[2]));
+}
+
+static cell_t
+DoubleLe(IPluginContext* pCtx, const cell_t* params)
+{
+  return !!(sp_ctodb(params[1]) <= sp_ctodb(params[2]));
+}
+
+static cell_t
+DoubleEq(IPluginContext* pCtx, const cell_t* params)
+{
+  return !!(sp_ctodb(params[1]) == sp_ctodb(params[2]));
+}
+
+static cell_t
+DoubleNe(IPluginContext* pCtx, const cell_t* params)
+{
+  return !!(sp_ctodb(params[1]) != sp_ctodb(params[2]));
+}
+
+static cell_t
+DoubleNot(IPluginContext* pCtx, const cell_t* params)
+{
+  double val = sp_ctodb(params[1]);
+  if (ke::IsNaN(val))
+    return 1;
+  return val ? 0 : 1;
+}
+
 sp_nativeinfo_t gBuiltinFloatNatives[] = {
+  // 32-bit floating point
   {"__float_ctor",    FloatCtor},
+  {"__float_double",  FloatToDouble},
   {"__float_mul",     FloatMul},
   {"__float_div",     FloatDiv},
   {"__float_mod",     FloatMod},
@@ -156,6 +267,23 @@ sp_nativeinfo_t gBuiltinFloatNatives[] = {
   {"__float_eq",      FloatEq},
   {"__float_ne",      FloatNe},
   {"__float_not",     FloatNot},
+
+  // 64-bit floating point (double)
+  {"__double_ctor",    DoubleCtor},
+  {"__double_float",   DoubleToFloat},
+  {"__double_mul",     DoubleMul},
+  {"__double_div",     DoubleDiv},
+  {"__double_mod",     DoubleMod},
+  {"__double_add",     DoubleAdd},
+  {"__double_sub",     DoubleSub},
+  {"__double_gt",      DoubleGt},
+  {"__double_ge",      DoubleGe},
+  {"__double_lt",      DoubleLt},
+  {"__double_le",      DoubleLe},
+  {"__double_eq",      DoubleEq},
+  {"__double_ne",      DoubleNe},
+  {"__double_not",     DoubleNot},
+
   {nullptr,           nullptr},
 };
 

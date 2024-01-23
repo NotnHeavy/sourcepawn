@@ -134,13 +134,13 @@ ScriptedInvoker::PushString(const char* string)
 }
 
 int
-ScriptedInvoker::PushStringEx(char* buffer, size_t length, int sz_flags, int cp_flags)
+ScriptedInvoker::PushStringEx(char* buffer, size_t length, cell_t sz_flags, cell_t cp_flags)
 {
   return _PushString(buffer, sz_flags, cp_flags, length);
 }
 
 int
-ScriptedInvoker::_PushString(const char* string, int sz_flags, int cp_flags, size_t len)
+ScriptedInvoker::_PushString(const char* string, cell_t sz_flags, cell_t cp_flags, size_t len)
 {
   if (m_curparam >= SP_MAX_EXEC_PARAMS)
     return SetError(SP_ERROR_PARAMS_MAX);

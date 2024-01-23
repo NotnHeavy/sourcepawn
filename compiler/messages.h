@@ -278,6 +278,7 @@ static const char* warnmsg[] = {
     /*249*/ "function name is always true - possible missing parenthesis?\n",
     /*250*/ "pragma has no effect\n",
     /*251*/ "const variable was not initialized\n",
+    /*252*/ "data from type '%s' may be lost in type '%s'\n",
 };
 
 static const char* errmsg_ex[] = {

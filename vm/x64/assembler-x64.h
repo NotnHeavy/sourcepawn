@@ -14,6 +14,7 @@
 #define _include_sourcepawn_vm_assembler_x64_h__
 
 #include <assembler.h>
+#include <sp_vm_types.h>
 #include <amtl/am-platform.h>
 #include <amtl/am-assert.h>
 #include <amtl/am-vector.h>
@@ -160,6 +161,7 @@ enum Scale {
   ScaleEight,
   ScalePointer = ScaleEight
 };
+static const Scale ScaleCell = ((sizeof(cell_t) == 4) ? ScaleFour : ScaleEight);
 
 static const uint8_t kModeDisp0 = 0;
 static const uint8_t kModeDisp8 = 1;

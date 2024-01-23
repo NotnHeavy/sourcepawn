@@ -94,7 +94,7 @@ SpewOpcode(FILE* fp, PluginRuntime* runtime, const cell_t* start, const cell_t* 
     case OP_LOAD_S_ALT:
     case OP_STOR_S_PRI:
     case OP_STOR_S_ALT:
-      fprintf(fp, "%d", cip[1]);
+      fprintf(fp, "%lld", cip[1]);
       break;
 
     case OP_JUMP:
@@ -118,9 +118,9 @@ SpewOpcode(FILE* fp, PluginRuntime* runtime, const cell_t* start, const cell_t* 
       if (index < runtime->image()->NumNatives())
         fprintf(fp, "%s", runtime->GetNative(index)->name);
       if (op == OP_SYSREQ_N)
-        fprintf(fp, " ; (%d args, index %d)", cip[2], index);
+        fprintf(fp, " ; (%lld args, index %lld)", cip[2], index);
       else
-        fprintf(fp, " ; (index %d)", index);
+        fprintf(fp, " ; (index %lld)", index);
       break;
     }
 
@@ -128,28 +128,28 @@ SpewOpcode(FILE* fp, PluginRuntime* runtime, const cell_t* start, const cell_t* 
     case OP_PUSH2:
     case OP_PUSH2_S:
     case OP_PUSH2_ADR:
-      fprintf(fp, "%d, %d", cip[1], cip[2]);
+      fprintf(fp, "%lld, %lld", cip[1], cip[2]);
       break;
 
     case OP_PUSH3_C:
     case OP_PUSH3:
     case OP_PUSH3_S:
     case OP_PUSH3_ADR:
-      fprintf(fp, "%d, %d, %d", cip[1], cip[2], cip[3]);
+      fprintf(fp, "%lld, %lld, %lld", cip[1], cip[2], cip[3]);
       break;
 
     case OP_PUSH4_C:
     case OP_PUSH4:
     case OP_PUSH4_S:
     case OP_PUSH4_ADR:
-      fprintf(fp, "%d, %d, %d, %d", cip[1], cip[2], cip[3], cip[4]);
+      fprintf(fp, "%lld, %lld, %lld, %lld", cip[1], cip[2], cip[3], cip[4]);
       break;
 
     case OP_PUSH5_C:
     case OP_PUSH5:
     case OP_PUSH5_S:
     case OP_PUSH5_ADR:
-      fprintf(fp, "%d, %d, %d, %d, %d", cip[1], cip[2], cip[3], cip[4], cip[5]);
+      fprintf(fp, "%lld, %lld, %lld, %lld, %lld", cip[1], cip[2], cip[3], cip[4], cip[5]);
       break;
 
     default:

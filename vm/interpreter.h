@@ -132,6 +132,7 @@ class Interpreter final : public PcodeVisitor
   bool visitSWITCH(cell_t defaultOffset, const CaseTableEntry* cases, size_t ncases) override;
   bool visitFABS() override;
   bool visitFLOAT() override;
+  bool visitDOUBLE_TO_FLOAT() override;
   bool visitFLOATADD() override;
   bool visitFLOATSUB() override;
   bool visitFLOATMUL() override;
@@ -143,6 +144,20 @@ class Interpreter final : public PcodeVisitor
   bool visitFLOATCMP() override;
   bool visitFLOAT_CMP_OP(CompareOp op) override;
   bool visitFLOAT_NOT() override;
+  bool visitDBABS() override;
+  bool visitDOUBLE() override;
+  bool visitFLOAT_TO_DOUBLE() override;
+  bool visitDOUBLEADD() override;
+  bool visitDOUBLESUB() override;
+  bool visitDOUBLEMUL() override;
+  bool visitDOUBLEDIV() override;
+  bool visitRND_TO_NEAREST_DOUBLE() override;
+  bool visitRND_TO_FLOOR_DOUBLE() override;
+  bool visitRND_TO_CEIL_DOUBLE() override;
+  bool visitRND_TO_ZERO_DOUBLE() override;
+  bool visitDOUBLECMP() override;
+  bool visitDOUBLE_CMP_OP(CompareOp op) override;
+  bool visitDOUBLE_NOT() override;
   bool visitBOUNDS(uint32_t limit) override;
   bool visitGENARRAY(uint32_t dims, bool autozero) override;
   bool visitTRACKER_PUSH_C(cell_t amount) override;

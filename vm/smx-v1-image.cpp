@@ -265,7 +265,7 @@ SmxV1Image::validateCode()
     return error("code version is too old, no longer supported");
   if (code->codeversion > SmxConsts::CODE_VERSION_CURRENT)
     return error("code version is too new, not supported");
-  if (code->cellsize != 4)
+  if (code->cellsize != 8)
     return error("unsupported cellsize");
   if (code->flags & ~CODEFLAG_DEBUG)
     return error("unsupported code settings");
@@ -1138,7 +1138,7 @@ SmxV1Image::LookupFunctionAddress(const char* function, const char* file, ucell_
 }
 
 bool
-SmxV1Image::LookupLineAddress(const uint32_t line, const char* filename, uint32_t* addr) const
+SmxV1Image::LookupLineAddress(const uint32_t line, const char* filename, ucell_t* addr) const
 {
   // Find a suitable "breakpoint address" close to the indicated line (and in
   // the specified file). The address is moved up to the next "breakable" line

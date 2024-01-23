@@ -246,6 +246,7 @@ namespace sp {
     _U(FIRST_FAKE, "firstfake")                                             \
     _G(FABS, "fabs", 1)                                                     \
     _G(FLOAT, "float", 1)                                                   \
+    _G(DOUBLE_TO_FLOAT, "floatdb", 1)                                       \
     _G(FLOATADD, "float.add", 1)                                            \
     _G(FLOATSUB, "float.sub", 1)                                            \
     _G(FLOATMUL, "float.mul", 1)                                            \
@@ -261,7 +262,26 @@ namespace sp {
     _G(FLOAT_LE, "float.le", 1)                                             \
     _G(FLOAT_NE, "float.ne", 1)                                             \
     _G(FLOAT_EQ, "float.eq", 1)                                             \
-    _G(FLOAT_NOT, "float.not", 1)
+    _G(FLOAT_NOT, "float.not", 1)                                           \
+    _G(DBABS, "dbabs", 1)                                                   \
+    _G(DOUBLE, "double", 1)                                                 \
+    _G(FLOAT_TO_DOUBLE, "doublef", 1)                                       \
+    _G(DOUBLEADD, "double.add", 1)                                          \
+    _G(DOUBLESUB, "double.sub", 1)                                          \
+    _G(DOUBLEMUL, "double.mul", 1)                                          \
+    _G(DOUBLEDIV, "double.div", 1)                                          \
+    _G(RND_TO_NEAREST_DOUBLE, "double.round", 1)                            \
+    _G(RND_TO_FLOOR_DOUBLE, "double.floor", 1)                              \
+    _G(RND_TO_CEIL_DOUBLE, "double.ceil", 1)                                \
+    _G(RND_TO_ZERO_DOUBLE, "double.rndtozero", 1)                           \
+    _G(DOUBLECMP, "double.cmp", 1)                                          \
+    _G(DOUBLE_GT, "double.gt", 1)                                           \
+    _G(DOUBLE_GE, "double.ge", 1)                                           \
+    _G(DOUBLE_LT, "double.lt", 1)                                           \
+    _G(DOUBLE_LE, "double.le", 1)                                           \
+    _G(DOUBLE_NE, "double.ne", 1)                                           \
+    _G(DOUBLE_EQ, "double.eq", 1)                                           \
+    _G(DOUBLE_NOT, "double.not", 1)
 
 enum OPCODE {
 #define _G(op, text, cells) OP_##op,

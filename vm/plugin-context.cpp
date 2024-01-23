@@ -23,10 +23,10 @@
 using namespace sp;
 using namespace SourcePawn;
 
-#define CELLBOUNDMAX  (INT_MAX/sizeof(cell_t))
+#define CELLBOUNDMAX  (INT_MAX/sizeof(int))
 #define STACKMARGIN    ((cell_t)(16*sizeof(cell_t)))
 
-static const size_t kMinHeapSize = 16384;
+static const size_t kMinHeapSize = (4096*sizeof(cell_t));
 
 PluginContext::PluginContext(PluginRuntime* pRuntime)
  : m_pRuntime(pRuntime),
@@ -679,7 +679,7 @@ PluginContext::generateFullArray(uint32_t argc, cell_t* argv, int autozero)
   // cells is the total number of cells required.
   // iv_size is the number of bytes needed to hold indirection vectors,
   // and is a subset of cells*sizeof(cell).
-  uint32_t cells = argv[0];
+  ucell_t cells = argv[0];
   cell_t iv_size = 0;
 
   for (uint32_t dim = 1; dim < argc; dim++) {
@@ -688,10 +688,10 @@ PluginContext::generateFullArray(uint32_t argc, cell_t* argv, int autozero)
       return SP_ERROR_ARRAY_TOO_BIG;
     if (!ke::IsUint32MultiplySafe(cells, dimsize))
       return SP_ERROR_ARRAY_TOO_BIG;
-    cells *= uint32_t(dimsize);
+    cells *= ucell_t(dimsize);
     if (!ke::IsUint32AddSafe(cells, dimsize))
       return SP_ERROR_ARRAY_TOO_BIG;
-    cells += uint32_t(dimsize);
+    cells += ucell_t(dimsize);
     iv_size *= dimsize;
     iv_size += dimsize * sizeof(cell_t);
   }
@@ -699,11 +699,11 @@ PluginContext::generateFullArray(uint32_t argc, cell_t* argv, int autozero)
   if (!ke::IsUint32MultiplySafe(cells, sizeof(cell_t)))
     return SP_ERROR_ARRAY_TOO_BIG;
 
-  uint32_t bytes = cells * sizeof(cell_t);
+  ucell_t bytes = cells * sizeof(cell_t);
   if (!ke::IsUint32AddSafe(hp_, bytes))
     return SP_ERROR_ARRAY_TOO_BIG;
 
-  uint32_t new_hp = hp_ + bytes;
+  ucell_t new_hp = hp_ + bytes;
   if (new_hp >= sp_ - STACK_MARGIN)
     return SP_ERROR_HEAPLOW;
 
@@ -747,11 +747,11 @@ PluginContext::generateArray(cell_t dims, cell_t* stk, bool autozero)
 {
   if (dims == 1) {
     uint32_t size = *stk;
-    if (size == 0 || !ke::IsUint32MultiplySafe(size, 4))
+    if (size == 0 || !ke::IsUint32MultiplySafe(size, sizeof(cell_t)))
       return SP_ERROR_ARRAY_TOO_BIG;
     *stk = hp_;
 
-    uint32_t bytes = size * 4;
+    uint32_t bytes = size * sizeof(cell_t);
 
     if (uintptr_t(memory_ + hp_ + bytes) >= uintptr_t(stk))
       return SP_ERROR_HEAPLOW;
@@ -1054,7 +1054,7 @@ PluginContext::initArray(cell_t array_addr,
 }
 
 bool
-PluginContext::HeapAlloc2dArray(unsigned int length, unsigned int stride, cell_t* local_addr,
+PluginContext::HeapAlloc2dArray(ucell_t length, ucell_t stride, cell_t* local_addr,
                                 const cell_t* init)
 {
   if (length > INT_MAX || stride > INT_MAX) {

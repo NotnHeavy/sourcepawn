@@ -44,11 +44,15 @@ union FloatCellUnion {
     FloatCellUnion(float f32)
      : f32(f32)
     {}
+    FloatCellUnion(double db64)
+     : db64(db64)
+    {}
     FloatCellUnion(cell_t cell)
      : cell(cell)
     {}
 
     float f32;
+    double db64;
     cell_t cell;
 };
 } // namespace sp
@@ -75,6 +79,30 @@ static inline float
 sp_ctof(cell_t val)
 {
     return sp::FloatCellUnion(val).f32;
+}
+
+/**
+ * @brief Reinterpret-casts a double to a cell.
+ *
+ * @param val		Float value.
+ * @return			Cell typed version.
+ */
+static inline cell_t
+sp_dbtoc(double val)
+{
+    return sp::FloatCellUnion(val).cell;
+}
+
+/**
+ * @brief Reinterpret-casts a cell to a double.
+ *
+ * @param val		Cell-packed float value.
+ * @return			Float typed version.
+ */
+static inline double
+sp_ctodb(cell_t val)
+{
+    return sp::FloatCellUnion(val).db64;
 }
 
 #endif //_INCLUDE_SOURCEPAWN_VM_TYPEUTIL_H_

@@ -49,7 +49,7 @@ CodeGenerator::CodeGenerator(CompileContext& cc, ParseTree* tree)
 
 bool CodeGenerator::Generate() {
     // First instruction is always halt.
-    __ emit(OP_HALT, 0);
+    __ emit(OP_HALT, static_cast<cell_t>(0));
 
     EmitStmtList(tree_->stmts());
     if (!ComputeStackUsage())
@@ -339,7 +339,7 @@ CodeGenerator::EmitLocalVar(VarDeclBase* decl)
             }
         } else {
             // Note: we no longer honor "decl" for scalars.
-            __ emit(OP_PUSH_C, 0);
+            __ emit(OP_PUSH_C, static_cast<cell_t>(0));
         }
     } else if (decl->ident() == iARRAY) {
         ArrayData array;
@@ -1116,7 +1116,7 @@ CodeGenerator::EmitIndexExpr(IndexExpr* expr)
             /* normal array index */
             if (idxval.constval() != 0) {
                 /* don't add offsets for zero subscripts */
-                __ emit(OP_ADD_C, idxval.constval() << 2);
+                __ emit(OP_ADD_C, idxval.constval() * sizeof(cell));
             }
         } else {
             /* character index */
@@ -1586,10 +1586,10 @@ CodeGenerator::EmitDoWhileStmt(DoWhileStmt* stmt)
                 Label on_true, join;
                 EnterHeapScope(Flow_None);
                 EmitTest(cond, true, &on_true);
-                __ emit(OP_PUSH_C, 0);
+                __ emit(OP_PUSH_C, static_cast<cell_t>(0));
                 __ emit(OP_JUMP, &join);
                 __ bind(&on_true);
-                __ emit(OP_PUSH_C, 1);
+                __ emit(OP_PUSH_C, static_cast<cell_t>(1));
                 __ bind(&join);
                 LeaveHeapScope();
                 __ emit(OP_POP_PRI);
@@ -1606,7 +1606,7 @@ CodeGenerator::EmitDoWhileStmt(DoWhileStmt* stmt)
             Label on_true, join;
             EnterHeapScope(Flow_None);
             EmitTest(cond, true, &on_true);
-            __ emit(OP_PUSH_C, 0);
+            __ emit(OP_PUSH_C, static_cast<cell_t>(0));
             __ emit(OP_JUMP, &join);
             __ bind(&on_true);
             __ emit(OP_PUSH_C, 1);
@@ -1878,7 +1878,7 @@ void CodeGenerator::EmitCall(FunctionDecl* fun, cell nargs) {
             node->second.emplace_back(fun);
     }
 
-    max_func_memory_ = std::max(max_func_memory_, current_memory_ + nargs);
+    max_func_memory_ = std::max(max_func_memory_, current_memory_ + static_cast<int>(nargs));
 }
 
 void
@@ -2193,8 +2193,8 @@ int CodeGenerator::DynamicMemorySize() const {
     if (kMaxCells - 4096 > min_cells)
         min_cells = max_script_memory_ + 4096;
 
-    int custom = cc_.options()->pragma_dynamic;
-    return std::max(min_cells, custom) * sizeof(cell_t);
+    cell_t custom = cc_.options()->pragma_dynamic;
+    return std::max(min_cells, static_cast<int>(custom)) * sizeof(cell_t);
 }
 
 void CodeGenerator::EnqueueDebugSymbol(Decl* decl, uint32_t pc) {

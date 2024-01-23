@@ -57,7 +57,7 @@ class PluginContext final : public BasePluginContext
   int LocalToStringNULL(cell_t local_addr, char** addr) override;
   IPluginRuntime* GetRuntime() override;
   cell_t* GetLocalParams() override;
-  bool HeapAlloc2dArray(unsigned int length, unsigned int stride, cell_t* local_addr,
+  bool HeapAlloc2dArray(ucell_t length, ucell_t stride, cell_t* local_addr,
                         const cell_t* init) override;
   void EnterHeapScope() override;
   void LeaveHeapScope() override;
@@ -93,7 +93,7 @@ class PluginContext final : public BasePluginContext
     return offsetof(PluginContext, memory_);
   }
 
-  int32_t* addressOfSp() {
+  cell_t* addressOfSp() {
     return &sp_;
   }
   cell_t* addressOfFrm() {

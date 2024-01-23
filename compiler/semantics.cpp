@@ -631,6 +631,9 @@ bool Semantics::CheckUnaryExpr(UnaryExpr* unary) {
             if (out_val.ident == iCONSTEXPR && out_val.type()->isFloat()) {
                 float f = sp::FloatCellUnion(out_val.constval()).f32;
                 out_val.set_constval(sp::FloatCellUnion(-f).cell);
+            if (out_val.ident == iCONSTEXPR && out_val.type()->isDouble()) {
+                float f = sp::FloatCellUnion(out_val.constval()).db64;
+                out_val.set_constval(sp::FloatCellUnion(-f).cell);
             } else if (find_userop(*sc_, '-', out_val.type(), 0, 1, &out_val, &userop)) {
                 expr = unary->set_expr(new CallUserOpExpr(userop, expr));
                 out_val = expr->val();
@@ -3006,7 +3009,8 @@ void ReportFunctionReturnError(FunctionDecl* decl) {
     if (decl->return_type()->isInt()) {
         report(decl, 209) << decl->name();
     } else if (decl->return_type()->isEnum() || decl->return_type()->isBool() ||
-               decl->return_type()->isFloat() || !decl->retvalue_used())
+               decl->return_type()->isFloat() || decl->return_type()->isDouble() ||
+               !decl->retvalue_used())
     {
         report(decl, 242) << decl->name();
     } else {

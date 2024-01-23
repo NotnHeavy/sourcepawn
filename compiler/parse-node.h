@@ -1190,6 +1190,13 @@ class FloatExpr final : public TaggedValueExpr
     FloatExpr(CompileContext& cc, const token_pos_t& pos, cell value);
 };
 
+class DoubleExpr final : public TaggedValueExpr
+{
+  public:
+    DoubleExpr(CompileContext& cc, const token_pos_t& pos, cell value);
+};
+
+
 class StringExpr final : public Expr
 {
   public:

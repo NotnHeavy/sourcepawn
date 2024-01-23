@@ -42,9 +42,9 @@ struct full_token_t {
     int id = 0;
     union {
         Atom* atom = nullptr;
-        int numeric_value; // Set on tRATIONAL, tNUMBER, and tCHAR_LITERAL.
+        cell numeric_value; // Set on tRATIONAL, tDOUBLE, tNUMBER, and tCHAR_LITERAL.
     };
-    int value();
+    cell value();
     token_pos_t start;
     const std::string& data() const {
         return atom->str();
@@ -118,7 +118,6 @@ enum TokenKind {
     tDEFINED,
     tDELETE,
     tDO,
-    tDOUBLE,
     tELSE,
     tENUM,
     tEXIT,
@@ -211,6 +210,7 @@ enum TokenKind {
     /* other recognized tokens */
     tNUMBER,   /* integer number */
     tRATIONAL, /* rational number */
+    tDOUBLE,   /* rational number with 64-bit precision */
     tSYMBOL,
     tLABEL,
     tSTRING,
@@ -225,8 +225,8 @@ enum TokenKind {
     tLAST_TOKEN_ID
 };
 
-inline int full_token_t::value() {
-    assert(id == tRATIONAL || id == tNUMBER || id == tCHAR_LITERAL);
+inline cell full_token_t::value() {
+    assert(id == tRATIONAL || id == tDOUBLE || id == tNUMBER || id == tCHAR_LITERAL);
     return numeric_value;
 }
 

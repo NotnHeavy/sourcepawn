@@ -726,11 +726,18 @@ Compiler::visitFLOAT()
     __ movd(pri, xmm0);
   } else {
     __ fild32(Operand(edi, 0));
-    __ subl(esp, 4);
+    __ subl(esp, sizeof(cell_t));
     __ fstp32(Operand(esp, 0));
     __ pop(pri);
   }
-  __ addl(stk, 4);
+  __ addl(stk, sizeof(cell_t));
+  return true;
+}
+
+bool
+Compiler::visitDOUBLE_TO_FLOAT()
+{
+  assert(0);
   return true;
 }
 
@@ -975,6 +982,106 @@ Compiler::visitFLOAT_NOT()
   __ bind(&done);
 
   __ addl(stk, 4);
+  return true;
+}
+
+bool
+Compiler::visitDBABS()
+{
+  __ movl(pri, Operand(stk, 0));
+  __ andl(pri, 0x7fffffffffffffff);
+  __ addl(stk, 4);
+  return true;
+}
+
+bool
+Compiler::visitDOUBLE()
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitFLOAT_TO_DOUBLE()
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitDOUBLEADD()
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitDOUBLESUB()
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitDOUBLEMUL()
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitDOUBLEDIV()
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitRND_TO_NEAREST_DOUBLE()
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitRND_TO_CEIL_DOUBLE()
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitRND_TO_ZERO_DOUBLE() 
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitRND_TO_FLOOR_DOUBLE()
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitDOUBLECMP()
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitDOUBLE_CMP_OP(CompareOp op)
+{
+  assert(0);
+  return true;
+}
+
+bool
+Compiler::visitDOUBLE_NOT()
+{
+  assert(0);
   return true;
 }
 

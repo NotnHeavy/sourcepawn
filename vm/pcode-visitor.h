@@ -121,6 +121,7 @@ class PcodeVisitor
   virtual bool visitSTRADJUST_PRI() = 0;
   virtual bool visitFABS() = 0;
   virtual bool visitFLOAT() = 0;
+  virtual bool visitDOUBLE_TO_FLOAT() = 0;
   virtual bool visitFLOATADD() = 0;
   virtual bool visitFLOATSUB() = 0;
   virtual bool visitFLOATMUL() = 0;
@@ -132,6 +133,20 @@ class PcodeVisitor
   virtual bool visitFLOATCMP() = 0;
   virtual bool visitFLOAT_CMP_OP(CompareOp op) = 0;
   virtual bool visitFLOAT_NOT() = 0;
+  virtual bool visitDBABS() = 0;
+  virtual bool visitDOUBLE() = 0;
+  virtual bool visitFLOAT_TO_DOUBLE() = 0;
+  virtual bool visitDOUBLEADD() = 0;
+  virtual bool visitDOUBLESUB() = 0;
+  virtual bool visitDOUBLEMUL() = 0;
+  virtual bool visitDOUBLEDIV() = 0;
+  virtual bool visitRND_TO_NEAREST_DOUBLE() = 0;
+  virtual bool visitRND_TO_FLOOR_DOUBLE() = 0;
+  virtual bool visitRND_TO_CEIL_DOUBLE() = 0;
+  virtual bool visitRND_TO_ZERO_DOUBLE() = 0;
+  virtual bool visitDOUBLECMP() = 0;
+  virtual bool visitDOUBLE_CMP_OP(CompareOp op) = 0;
+  virtual bool visitDOUBLE_NOT() = 0;
   virtual bool visitHALT(cell_t value) = 0;
   virtual bool visitSWITCH(cell_t defaultOffset, const CaseTableEntry* cases, size_t ncases) = 0;
   virtual bool visitINITARRAY(PawnReg reg, cell_t addr, cell_t iv_size, cell_t data_copy_size,
@@ -443,6 +458,10 @@ class IncompletePcodeVisitor : public PcodeVisitor
     assert(false);
     return false;
   }
+  virtual bool visitDOUBLE_TO_FLOAT() override {
+    assert(false);
+    return false;
+  }
   virtual bool visitFLOATADD() override {
     assert(false);
     return false;
@@ -484,6 +503,62 @@ class IncompletePcodeVisitor : public PcodeVisitor
     return false;
   }
   virtual bool visitFLOAT_NOT() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitDBABS() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitDOUBLE() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitFLOAT_TO_DOUBLE() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitDOUBLEADD() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitDOUBLESUB() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitDOUBLEMUL() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitDOUBLEDIV() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitRND_TO_NEAREST_DOUBLE() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitRND_TO_FLOOR_DOUBLE() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitRND_TO_CEIL_DOUBLE() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitRND_TO_ZERO_DOUBLE() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitDOUBLECMP() override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitDOUBLE_CMP_OP(CompareOp op) override {
+    assert(false);
+    return false;
+  }
+  virtual bool visitDOUBLE_NOT() override {
     assert(false);
     return false;
   }

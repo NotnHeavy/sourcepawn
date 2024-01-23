@@ -102,12 +102,12 @@ static cell_t Print(IPluginContext* cx, const cell_t* params)
 
 static cell_t WriteNum(IPluginContext* cx, const cell_t* params)
 {
-  return printf("%d", params[1]);
+  return printf("%lld", params[1]);
 }
 
 static cell_t PrintNum(IPluginContext* cx, const cell_t* params)
 {
-  return printf("%d\n", params[1]);
+  return printf("%lld\n", params[1]);
 }
 
 static cell_t PrintNums(IPluginContext* cx, const cell_t* params)
@@ -117,7 +117,7 @@ static cell_t PrintNums(IPluginContext* cx, const cell_t* params)
     cell_t* addr;
     if ((err = cx->LocalToPhysAddr(params[i], &addr)) != SP_ERROR_NONE)
       return cx->ThrowNativeErrorEx(err, "Could not read argument");
-    fprintf(stdout, "%d", *addr);
+    fprintf(stdout, "%lld", *addr);
     if (i != size_t(params[0]))
       fprintf(stdout, ", ");
   }
@@ -168,9 +168,9 @@ static cell_t CallWithString(IPluginContext* cx, const cell_t* params) {
   char* buf;
   cx->LocalToString(params[2], &buf);
 
-  int length = params[3];
-  int sz_flags = params[4];
-  int cp_flags = params[5];
+  cell_t length = params[3];
+  cell_t sz_flags = params[4];
+  cell_t cp_flags = params[5];
 
   fn->PushStringEx(buf, length, sz_flags, cp_flags);
   fn->PushCell(length);
@@ -287,7 +287,7 @@ class DynamicNative : public INativeCallback
       if (--refcount_ == 0)
         delete this;
     }
-    int Invoke(IPluginContext* cx, const cell_t* params) override {
+    cell_t Invoke(IPluginContext* cx, const cell_t* params) override {
       if (params[0] != 1) {
         cx->ReportError("wrong param count");
         return 0;
@@ -337,7 +337,7 @@ static int Execute(const char* file)
 
   IPluginContext* cx = rt->GetDefaultContext();
 
-  int result;
+  cell_t result;
   {
     ExceptionHandler eh(cx);
     if (!fun->Invoke(&result)) {

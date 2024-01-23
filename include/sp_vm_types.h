@@ -39,9 +39,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef uint32_t ucell_t;  /**< Unsigned 32bit integer */
-typedef int32_t cell_t;    /**< Basic 32bit signed integer type for plugins */
-typedef uint32_t funcid_t; /**< Function index code */
+typedef uint64_t ucell_t;  /**< Unsigned 64bit integer */
+typedef int64_t cell_t;    /**< Basic 64bit signed integer type for plugins */
+typedef uint64_t funcid_t; /**< Function index code */
 
 #include "sp_typeutil.h"
 

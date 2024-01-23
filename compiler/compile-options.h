@@ -36,7 +36,7 @@ struct CompileOptions {
     bool require_newdecls = false;
     bool warnings_are_errors = false;
     bool use_stderr = false;
-    int pragma_dynamic = 0;
+    int64_t pragma_dynamic = 0;
     int ctrlchar_org = CTRL_CHAR;
     int compression = 9;
     bool show_includes = false;

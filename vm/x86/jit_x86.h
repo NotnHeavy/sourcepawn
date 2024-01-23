@@ -35,6 +35,9 @@ class Environment;
 class CompiledFunction;
 class CallThunk;
 
+static uint64_t kRegisters[8];
+static AddressValue kRegisterAddress = AddressValue(&kRegisters);
+
 class Compiler : public CompilerBase
 {
   friend class CallThunk;
@@ -119,6 +122,7 @@ class Compiler : public CompilerBase
   bool visitSTRADJUST_PRI() override;
   bool visitFABS() override;
   bool visitFLOAT() override;
+  bool visitDOUBLE_TO_FLOAT() override;
   bool visitFLOATADD() override;
   bool visitFLOATSUB() override;
   bool visitFLOATMUL() override;
@@ -130,6 +134,20 @@ class Compiler : public CompilerBase
   bool visitFLOATCMP() override;
   bool visitFLOAT_CMP_OP(CompareOp op) override;
   bool visitFLOAT_NOT() override;
+  bool visitDBABS() override;
+  bool visitDOUBLE() override;
+  bool visitFLOAT_TO_DOUBLE() override;
+  bool visitDOUBLEADD() override;
+  bool visitDOUBLESUB() override;
+  bool visitDOUBLEMUL() override;
+  bool visitDOUBLEDIV() override;
+  bool visitRND_TO_NEAREST_DOUBLE() override;
+  bool visitRND_TO_FLOOR_DOUBLE() override;
+  bool visitRND_TO_CEIL_DOUBLE() override;
+  bool visitRND_TO_ZERO_DOUBLE() override;
+  bool visitDOUBLECMP() override;
+  bool visitDOUBLE_CMP_OP(CompareOp op) override;
+  bool visitDOUBLE_NOT() override;
   bool visitHALT(cell_t value) override;
   bool visitSWITCH(
     cell_t defaultOffset,

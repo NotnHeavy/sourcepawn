@@ -44,6 +44,7 @@ native bool __float_ne(float a, float b);
 native bool __float_not(float a);
 native int __float_to_int(float a);
 native float float(int value);
+native float floatdb(double value);
 
 stock float operator*(float oper1, float oper2) { return __float_mul(oper1, oper2); }
 stock float operator/(float oper1, float oper2) { return __float_div(oper1, oper2); }
@@ -58,14 +59,26 @@ stock bool operator<=(float oper1, float oper2) { return __float_le(oper1, oper2
 stock bool operator!=(float oper1, float oper2) { return __float_ne(oper1, oper2); }
 stock bool operator==(float oper1, float oper2) { return __float_eq(oper1, oper2); }
 
+stock float operator*(float oper1, double oper2) { return __float_mul(oper1, floatdb(oper2)); }
+stock float operator/(float oper1, double oper2) { return __float_div(oper1, floatdb(oper2)); }
+stock float operator+(float oper1, double oper2) { return __float_add(oper1, floatdb(oper2)); }
+stock float operator-(float oper1, double oper2) { return __float_sub(oper1, floatdb(oper2)); }
+stock float operator%(float oper1, double oper2) { return __float_mod(oper1, floatdb(oper2)); }
+stock bool operator>(float oper1, double oper2) { return __float_gt(oper1, floatdb(oper2)); }
+stock bool operator>=(float oper1, double oper2) { return __float_ge(oper1, floatdb(oper2)); }
+stock bool operator<(float oper1, double oper2) { return __float_lt(oper1, floatdb(oper2)); }
+stock bool operator<=(float oper1, double oper2) { return __float_le(oper1, floatdb(oper2)); }
+stock bool operator!=(float oper1, double oper2) { return __float_ne(oper1, floatdb(oper2)); }
+stock bool operator==(float oper1, double oper2) { return __float_eq(oper1, floatdb(oper2)); }
+
 stock float operator++(float oper)
 {
-  return oper+1.0;
+  return oper+1.0f;
 }
 
 stock float operator--(float oper)
 {
-  return oper-1.0;
+  return oper-1.0f;
 }
 
 stock float operator-(float oper)

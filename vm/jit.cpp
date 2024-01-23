@@ -138,7 +138,7 @@ CompilerBase::emit()
           debug_map.push_back({ op_pc, debug_file_name, debug_line });
         } else {
           // Attempt to do something useful for plugins missing debug info.
-          debug_map.push_back({ op_pc, "<body>", pcode_addr - pcode_start_ });
+          debug_map.push_back({ op_pc, "<body>", static_cast<uint32_t>(pcode_addr - pcode_start_) });
         }
       }
     }

@@ -32,6 +32,7 @@
 #define _include_sourcepawn_assembler_x86_h__
 
 #include <assembler.h>
+#include <sp_vm_types.h>
 #include <amtl/am-vector.h>
 #include <string.h>
 
@@ -194,6 +195,7 @@ enum Scale {
   ScaleEight,
   ScalePointer = ScaleFour
 };
+static const Scale ScaleCell = ((sizeof(cell_t) == 4) ? ScaleFour : ScaleEight);
 
 struct Operand
 {

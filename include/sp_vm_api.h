@@ -188,7 +188,7 @@ class ICallable
      * @param cp_flags  Copy-back flags.
      * @return      Error code, if any.
      */
-    virtual int PushStringEx(char* buffer, size_t length, int sz_flags, int cp_flags) = 0;
+    virtual int PushStringEx(char* buffer, size_t length, cell_t sz_flags, cell_t cp_flags) = 0;
 
     /**
      * @brief Cancels a function call that is being pushed but not yet executed.
@@ -1183,7 +1183,7 @@ class IPluginContext
      * @param init          If non-null, array to copy. The length and stride
      *                      must be the same.
      */
-    virtual bool HeapAlloc2dArray(unsigned int length, unsigned int stride, cell_t* local_addr,
+    virtual bool HeapAlloc2dArray(ucell_t length, ucell_t stride, cell_t* local_addr,
                                   const cell_t* init) = 0;
 
     /**

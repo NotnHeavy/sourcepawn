@@ -48,8 +48,8 @@
 #include "source-file.h"
 #include "types.h"
 
-typedef int32_t cell;
-typedef uint32_t ucell;
+typedef int64_t cell;
+typedef uint64_t ucell;
 
 namespace sp {
 

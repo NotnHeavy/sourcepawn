@@ -190,6 +190,11 @@ FloatExpr::FloatExpr(CompileContext& cc, const token_pos_t& pos, cell value)
 {
 }
 
+DoubleExpr::DoubleExpr(CompileContext& cc, const token_pos_t& pos, cell value)
+  : TaggedValueExpr(pos, cc.types()->type_double(), value)
+{
+}
+
 MethodmapDecl* MethodmapDecl::LookupMethodmap(Decl* decl) {
     if (auto mm = decl->as<MethodmapDecl>())
         return mm;

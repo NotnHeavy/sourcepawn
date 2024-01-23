@@ -31,13 +31,14 @@
 #include "shared/string-atom.h"
 #include "stl/stl-vector.h"
 
-typedef int32_t cell;
-typedef uint32_t ucell;
+typedef int64_t cell;
+typedef uint64_t ucell;
 
 namespace sp {
 
 using namespace cc;
 
+// Possible entries for "ident". These are used in the "symbol", "value"
 // Possible entries for "ident". These are used in the "symbol", "value"
 // and arginfo structures. Not every constant is valid for every use.
 // In an argument list, the list is terminated with a "zero" ident; labels
@@ -64,6 +65,7 @@ enum class BuiltinType {
     Char,
     Int,
     Float,
+    Double,
     Null,
     Any,
     Void,
@@ -78,6 +80,13 @@ enum class TypeKind : uint8_t {
     Methodmap,
     Enum,
 };
+
+struct funcenum_t;
+class EnumStructDecl;
+class Expr;
+class MethodmapDecl;
+class PstructDecl;
+class Type;
 
 struct funcenum_t;
 class EnumStructDecl;
@@ -247,6 +256,7 @@ class Type : public PoolObject
     bool isAny() const { return isBuiltin(BuiltinType::Any); }
     bool isVoid() const { return isBuiltin(BuiltinType::Void); }
     bool isFloat() const { return isBuiltin(BuiltinType::Float); }
+    bool isDouble() const { return isBuiltin(BuiltinType::Double); }
     bool isBool() const { return isBuiltin(BuiltinType::Bool); }
 
     bool coercesFromInt() const {
@@ -387,6 +397,7 @@ class TypeManager
     Type* type_any() const { return type_any_; }
     Type* type_void() const { return type_void_; }
     Type* type_float() const { return type_float_; }
+    Type* type_double() const { return type_double_; }
     Type* type_bool() const { return type_bool_; }
     Type* type_string() const { return type_string_; }
     Type* type_char() const { return type_string_; }
@@ -409,6 +420,7 @@ class TypeManager
     Type* type_any_ = nullptr;
     Type* type_void_ = nullptr;
     Type* type_float_ = nullptr;
+    Type* type_double_ = nullptr;
     Type* type_bool_ = nullptr;
     Type* type_string_ = nullptr;
 };

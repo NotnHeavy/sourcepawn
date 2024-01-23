@@ -446,8 +446,14 @@ bool matchtag(Type* formal, Type* actual, int flags) {
     }
 
     if (!(flags & MATCHTAG_SILENT))
-        report(213) << formal << actual;
-    return false;
+    {
+        if (actual->isFloat() && formal->isDouble()) {
+            // TODO - validate if there will be truncation
+            report (252) << formal << actual;
+        } else if (!(formal->isFloat() && actual->isDouble())) {
+            report(213) << formal << actual;
+        }
+    }
 }
 
 bool matchtag_commutative(Type* formal, Type* actual, int flags) {

@@ -1030,6 +1030,8 @@ Parser::constant()
             return new NumberExpr(pos, types_->type_int(), lexer_->current_token()->value());
         case tRATIONAL:
             return new FloatExpr(cc_, pos, lexer_->current_token()->value());
+        case tDOUBLE:
+            return new DoubleExpr(cc_, pos, lexer_->current_token()->value());
         case tSTRING: {
             const auto& atom = lexer_->current_token()->atom;
             return new StringExpr(pos, atom);
@@ -1157,6 +1159,9 @@ Expr* Parser::struct_init() {
                 break;
             case tRATIONAL:
                 expr = new FloatExpr(cc_, pos, lexer_->current_token()->value());
+                break;
+            case tDOUBLE:
+                expr = new DoubleExpr(cc_, pos, lexer_->current_token()->value());
                 break;
             case tSYMBOL:
                 expr = new SymbolExpr(pos, lexer_->current_token()->atom);
@@ -2585,6 +2590,10 @@ Parser::parse_new_typename(const full_token_t* tok, TypenameInfo* out)
                 *out = TypenameInfo{types_->type_float()};
                 return true;
             }
+            if (tok->atom->str() == "double") {
+                *out = TypenameInfo{types_->tag_double()};
+                return true;
+            }
             if (tok->atom->str() == "bool") {
                 *out = TypenameInfo{types_->type_bool()};
                 return true;
@@ -2592,6 +2601,11 @@ Parser::parse_new_typename(const full_token_t* tok, TypenameInfo* out)
             if (tok->atom->str() == "Float") {
                 report(98) << "Float" << "float";
                 *out = TypenameInfo{types_->type_float()};
+                return true;
+            }
+            if (tok->atom->str() == "Double") {
+                report(98) << "Double" << "double";
+                *out = TypenameInfo{types_->tag_double()};
                 return true;
             }
             if (tok->atom->str() == "String") {

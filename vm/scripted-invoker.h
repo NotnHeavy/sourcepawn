@@ -55,7 +55,7 @@ class ScriptedInvoker : public IPluginFunction
   int PushFloatByRef(float* number, int flags);
   int PushArray(cell_t* inarray, unsigned int cells, int copyback);
   int PushString(const char* string);
-  int PushStringEx(char* buffer, size_t length, int sz_flags, int cp_flags);
+  int PushStringEx(char* buffer, size_t length, cell_t sz_flags, cell_t cp_flags);
   int Execute(cell_t* result);
   void Cancel();
   int CallFunction(const cell_t* params, unsigned int num_params, cell_t* result);
@@ -82,7 +82,7 @@ class ScriptedInvoker : public IPluginFunction
   RefPtr<MethodInfo> AcquireMethod();
 
  private:
-  int _PushString(const char* string, int sz_flags, int cp_flags, size_t len);
+  int _PushString(const char* string, cell_t sz_flags, cell_t cp_flags, size_t len);
   int SetError(int err);
 
  private:

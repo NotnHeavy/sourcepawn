@@ -243,6 +243,7 @@ RttiParser::validate()
   case cb::kBool:
   case cb::kInt32:
   case cb::kFloat32:
+  case cb::kDouble64:
   case cb::kChar8:
   case cb::kAny:
   case cb::kTopFunction:

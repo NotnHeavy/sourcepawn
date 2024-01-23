@@ -810,6 +810,16 @@ Interpreter::visitFLOAT()
 }
 
 bool
+Interpreter::visitDOUBLE_TO_FLOAT()
+{
+  cell_t value;
+  if (!cx_->popStack(&value))
+    return false;
+  regs_.pri() = sp_ftoc(float(sp_ctodb(value)));
+  return true;
+}
+
+bool
 Interpreter::visitFLOATADD()
 {
   cell_t leftVal, rightVal;
@@ -980,6 +990,213 @@ Interpreter::visitFLOAT_NOT()
     return false;
 
   float f = sp_ctof(value);
+  if (ke::IsNaN(f))
+    regs_.pri() = 1;
+  else
+    regs_.pri() = f ? 0 : 1;
+  return true;
+}
+
+bool
+Interpreter::visitDBABS()
+{
+  if (!cx_->popStack(&regs_.pri()))
+    return false;
+  regs_.pri() &= 0x7fffffffffffffff;
+  return true;
+}
+
+bool
+Interpreter::visitDOUBLE()
+{
+  cell_t value;
+  if (!cx_->popStack(&value))
+    return false;
+  regs_.pri() = sp_dbtoc(double(value));
+  return true;
+}
+
+bool
+Interpreter::visitFLOAT_TO_DOUBLE()
+{
+  cell_t value;
+  if (!cx_->popStack(&value))
+    return false;
+  regs_.pri() = sp_dbtoc(double(sp_ctof(value)));
+  return true;
+}
+
+bool
+Interpreter::visitDOUBLEADD()
+{
+  cell_t leftVal, rightVal;
+  if (!cx_->popStack(&leftVal) || !cx_->popStack(&rightVal))
+    return false;
+  double left = sp_ctodb(leftVal);
+  double right = sp_ctodb(rightVal);
+  regs_.pri() = sp_dbtoc(left + right);
+  return true;
+}
+
+bool
+Interpreter::visitDOUBLESUB()
+{
+  cell_t leftVal, rightVal;
+  if (!cx_->popStack(&leftVal) || !cx_->popStack(&rightVal))
+    return false;
+  double left = sp_ctodb(leftVal);
+  double right = sp_ctodb(rightVal);
+  regs_.pri() = sp_dbtoc(left - right);
+  return true;
+}
+
+bool
+Interpreter::visitDOUBLEMUL()
+{
+  cell_t leftVal, rightVal;
+  if (!cx_->popStack(&leftVal) || !cx_->popStack(&rightVal))
+    return false;
+  double left = sp_ctodb(leftVal);
+  double right = sp_ctodb(rightVal);
+  regs_.pri() = sp_dbtoc(left * right);
+  return true;
+}
+
+bool
+Interpreter::visitDOUBLEDIV()
+{
+  cell_t leftVal, rightVal;
+  if (!cx_->popStack(&leftVal) || !cx_->popStack(&rightVal))
+    return false;
+  double left = sp_ctodb(leftVal);
+  double right = sp_ctodb(rightVal);
+  regs_.pri() = sp_dbtoc(left / right);
+  return true;
+}
+
+bool
+Interpreter::visitRND_TO_NEAREST_DOUBLE()
+{
+  cell_t value;
+  if (!cx_->popStack(&value))
+    return false;
+
+  int oldmethod = fegetround();
+  fesetround(FE_TONEAREST);
+
+  double f = sp_ctodb(value);
+  regs_.pri() = lrint(f);
+
+  fesetround(oldmethod);
+  return true;
+}
+
+bool
+Interpreter::visitRND_TO_FLOOR_DOUBLE()
+{
+  cell_t value;
+  if (!cx_->popStack(&value))
+    return false;
+
+  double f = sp_ctodb(value);
+  regs_.pri() = int(floor(f));
+  return true;
+}
+
+bool
+Interpreter::visitRND_TO_CEIL_DOUBLE()
+{
+  cell_t value;
+  if (!cx_->popStack(&value))
+    return false;
+
+  double f = sp_ctodb(value);
+  regs_.pri() = int(ceil(f));
+  return true;
+}
+
+bool
+Interpreter::visitRND_TO_ZERO_DOUBLE()
+{
+  cell_t value;
+  if (!cx_->popStack(&value))
+    return false;
+
+  double f = sp_ctodb(value);
+  if (f >= 0.0f)
+    regs_.pri() = int(floor(f));
+  else
+    regs_.pri() = int(ceil(f));
+  return true;
+}
+
+bool
+Interpreter::visitDOUBLECMP()
+{
+  cell_t leftVal, rightVal;
+  if (!cx_->popStack(&leftVal) || !cx_->popStack(&rightVal))
+    return false;
+
+  double left = sp_ctodb(leftVal);
+  double right = sp_ctodb(rightVal);
+
+  if (left > right)
+    regs_.pri() = 1;
+  else if (left < right)
+    regs_.pri() = -1;
+  else
+    regs_.pri() = 0;
+  return true;
+}
+
+bool
+Interpreter::visitDOUBLE_CMP_OP(CompareOp op)
+{
+  cell_t leftVal, rightVal;
+  if (!cx_->popStack(&leftVal) || !cx_->popStack(&rightVal))
+    return false;
+
+  double left = sp_ctodb(leftVal);
+  double right = sp_ctodb(rightVal);
+  if (ke::IsNaN(left) || ke::IsNaN(right)) {
+    regs_.pri() = 0;
+    return true;
+  }
+
+  switch (op) {
+  case CompareOp::Eq:
+    regs_.pri() = left == right;
+    break;
+  case CompareOp::Neq:
+    regs_.pri() = left != right;
+    break;
+  case CompareOp::Sless:
+    regs_.pri() = left < right;
+    break;
+  case CompareOp::Sleq:
+    regs_.pri() = left <= right;
+    break;
+  case CompareOp::Sgrtr:
+    regs_.pri() = left > right;
+    break;
+  case CompareOp::Sgeq:
+    regs_.pri() = left >= right;
+    break;
+  default:
+    assert(false);
+  }
+
+  return true;
+}
+
+bool
+Interpreter::visitDOUBLE_NOT()
+{
+  cell_t value;
+  if (!cx_->popStack(&value))
+    return false;
+
+  double f = sp_ctof(value);
   if (ke::IsNaN(f))
     regs_.pri() = 1;
   else

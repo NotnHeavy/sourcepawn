@@ -221,6 +221,7 @@ namespace cb {
 static const uint8_t kBool = 0x01;
 static const uint8_t kInt32 = 0x06;
 static const uint8_t kFloat32 = 0x0c;
+static const uint8_t kDouble64 = 0x0d;
 static const uint8_t kChar8 = 0x0e;
 static const uint8_t kAny = 0x10;
 static const uint8_t kTopFunction = 0x11;

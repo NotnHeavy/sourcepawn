@@ -556,6 +556,8 @@ class PcodeReader
       return visitor_->visitFABS();
     case OP_FLOAT:
       return visitor_->visitFLOAT();
+    case OP_DOUBLE_TO_FLOAT:
+      return visitor_->visitDOUBLE_TO_FLOAT();
     case OP_FLOATADD:
       return visitor_->visitFLOATADD();
     case OP_FLOATSUB:
@@ -598,6 +600,55 @@ class PcodeReader
       return visitor_->visitFLOAT_CMP_OP(CompareOp::Neq);
     case OP_FLOAT_NOT:
       return visitor_->visitFLOAT_NOT();
+
+    case OP_DBABS:
+      return visitor_->visitDBABS();
+    case OP_DOUBLE:
+      return visitor_->visitDOUBLE();
+    case OP_FLOAT_TO_DOUBLE:
+      return visitor_->visitFLOAT_TO_DOUBLE();
+    case OP_DOUBLEADD:
+      return visitor_->visitDOUBLEADD();
+    case OP_DOUBLESUB:
+      return visitor_->visitDOUBLESUB();
+    case OP_DOUBLEMUL:
+      return visitor_->visitDOUBLEMUL();
+    case OP_DOUBLEDIV:
+      return visitor_->visitDOUBLEDIV();
+
+    case OP_RND_TO_NEAREST_DOUBLE:
+      return visitor_->visitRND_TO_NEAREST_DOUBLE();
+
+    case OP_RND_TO_CEIL_DOUBLE:
+      return visitor_->visitRND_TO_CEIL_DOUBLE();
+
+    case OP_RND_TO_ZERO_DOUBLE:
+      return visitor_->visitRND_TO_ZERO_DOUBLE();
+
+    case OP_RND_TO_FLOOR_DOUBLE:
+      return visitor_->visitRND_TO_FLOOR_DOUBLE();
+
+    // This is the old double cmp, which returns ordered results. In newly
+    // compiled code it should not be used or generated.
+    //
+    // Note that the checks here are inverted: the test is |rhs OP lhs|.
+    case OP_DOUBLECMP:
+      return visitor_->visitDOUBLECMP();
+
+    case OP_DOUBLE_GT:
+      return visitor_->visitDOUBLE_CMP_OP(CompareOp::Sgrtr);
+    case OP_DOUBLE_GE:
+      return visitor_->visitDOUBLE_CMP_OP(CompareOp::Sgeq);
+    case OP_DOUBLE_LE:
+      return visitor_->visitDOUBLE_CMP_OP(CompareOp::Sleq);
+    case OP_DOUBLE_LT:
+      return visitor_->visitDOUBLE_CMP_OP(CompareOp::Sless);
+    case OP_DOUBLE_EQ:
+      return visitor_->visitDOUBLE_CMP_OP(CompareOp::Eq);
+    case OP_DOUBLE_NE:
+      return visitor_->visitDOUBLE_CMP_OP(CompareOp::Neq);
+    case OP_DOUBLE_NOT:
+      return visitor_->visitDOUBLE_NOT();
 
     case OP_HALT:
     {
