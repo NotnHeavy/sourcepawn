@@ -49,7 +49,7 @@ CodeGenerator::CodeGenerator(CompileContext& cc, ParseTree* tree)
 
 bool CodeGenerator::Generate() {
     // First instruction is always halt.
-    __ emit(OP_HALT, static_cast<cell_t>(0));
+    __ emit(OP_HALT, 0);
 
     EmitStmtList(tree_->stmts());
     if (!ComputeStackUsage())
