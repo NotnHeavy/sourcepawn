@@ -931,7 +931,7 @@ FailedValidation(const std::string& message)
 {
     fprintf(stderr, "Binary validation failed: %s\n", message.c_str());
     fprintf(stderr, "Internal compilation error detected. Please file a bug:\n");
-    fprintf(stderr, "https://github.com/alliedmodders/sourcepawn/issues/new\n");
+    fprintf(stderr, "https://github.com/notnheavy/sourcepawn/issues/new\n");
     exit(1);
 }
 
