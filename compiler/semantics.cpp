@@ -631,7 +631,7 @@ bool Semantics::CheckUnaryExpr(UnaryExpr* unary) {
             if (out_val.ident == iCONSTEXPR && out_val.type()->isFloat()) {
                 float f = sp::FloatCellUnion(out_val.constval()).f32;
                 out_val.set_constval(sp::FloatCellUnion(-f).cell);
-            if (out_val.ident == iCONSTEXPR && out_val.type()->isDouble()) {
+            } else if (out_val.ident == iCONSTEXPR && out_val.type()->isDouble()) {
                 float f = sp::FloatCellUnion(out_val.constval()).db64;
                 out_val.set_constval(sp::FloatCellUnion(-f).cell);
             } else if (find_userop(*sc_, '-', out_val.type(), 0, 1, &out_val, &userop)) {

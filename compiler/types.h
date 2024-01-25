@@ -39,7 +39,6 @@ namespace sp {
 using namespace cc;
 
 // Possible entries for "ident". These are used in the "symbol", "value"
-// Possible entries for "ident". These are used in the "symbol", "value"
 // and arginfo structures. Not every constant is valid for every use.
 // In an argument list, the list is terminated with a "zero" ident; labels
 // cannot be passed as function arguments, so the value 0 is overloaded.
@@ -80,13 +79,6 @@ enum class TypeKind : uint8_t {
     Methodmap,
     Enum,
 };
-
-struct funcenum_t;
-class EnumStructDecl;
-class Expr;
-class MethodmapDecl;
-class PstructDecl;
-class Type;
 
 struct funcenum_t;
 class EnumStructDecl;

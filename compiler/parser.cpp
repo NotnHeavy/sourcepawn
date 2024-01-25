@@ -2591,7 +2591,7 @@ Parser::parse_new_typename(const full_token_t* tok, TypenameInfo* out)
                 return true;
             }
             if (tok->atom->str() == "double") {
-                *out = TypenameInfo{types_->tag_double()};
+                *out = TypenameInfo{types_->type_double()};
                 return true;
             }
             if (tok->atom->str() == "bool") {
@@ -2605,7 +2605,7 @@ Parser::parse_new_typename(const full_token_t* tok, TypenameInfo* out)
             }
             if (tok->atom->str() == "Double") {
                 report(98) << "Double" << "double";
-                *out = TypenameInfo{types_->tag_double()};
+                *out = TypenameInfo{types_->type_double()};
                 return true;
             }
             if (tok->atom->str() == "String") {

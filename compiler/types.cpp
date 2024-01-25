@@ -130,7 +130,7 @@ TypeManager::init()
     type_float_ = defineBuiltin("float", BuiltinType::Float);
     types_.emplace(cc_.atom("Float"), type_float_);
 
-    type_float_ = defineBuiltin("double", BuiltinType::Double);
+    type_double_ = defineBuiltin("double", BuiltinType::Double);
     types_.emplace(cc_.atom("Double"), type_double_);
 
     type_void_ = defineBuiltin("void", BuiltinType::Void);

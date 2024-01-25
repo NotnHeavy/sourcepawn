@@ -49,7 +49,7 @@ CodeGenerator::CodeGenerator(CompileContext& cc, ParseTree* tree)
 
 bool CodeGenerator::Generate() {
     // First instruction is always halt.
-    __ emit(OP_HALT, 0);
+    __ emit(OP_HALT, static_cast<cell_t>(0));
 
     EmitStmtList(tree_->stmts());
     if (!ComputeStackUsage())
@@ -89,7 +89,7 @@ CodeGenerator::AddDebugLine(int linenr)
 
 void CodeGenerator::AddDebugSymbol(Decl* decl, uint32_t pc) {
     auto symname = decl->name()->chars();
-
+    
     std::optional<cell> addr;
     if (auto fun = decl->as<FunctionDecl>()) {
         addr.emplace(fun->cg()->label.offset());
@@ -101,7 +101,7 @@ void CodeGenerator::AddDebugSymbol(Decl* decl, uint32_t pc) {
     }
 
     /* address tag:name codestart codeend ident vclass [tag:dim ...] */
-    auto string = ke::StringPrintf("S:%x %x:%s %x %x %x %x %x",
+    auto string = ke::StringPrintf("S:%llx %x:%s %x %x %x %x %x", // that %llx, we don't talk about it
                                    *addr, decl->type()->type_index(), symname, pc,
                                    asm_.position(), decl->ident(), decl->vclass(), (int)decl->is_const());
     if (decl->ident() == iARRAY || decl->ident() == iREFARRAY) {
