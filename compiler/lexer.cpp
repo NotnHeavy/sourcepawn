@@ -1027,6 +1027,7 @@ void Lexer::packedstring_char(std::string* data) {
  *
  *  Some tokens have "attributes":
  *     tNUMBER        the value of the number is return in "lexvalue".
+ *     tLONG          same as tNUMBER but 64-bit in width
  *     tRATIONAL      the value is in IEEE 754 encoding or in fixed point
  *                    encoding in "lexvalue".
  *     tSYMBOL        the first sNAMEMAX characters of the symbol are
@@ -1190,6 +1191,7 @@ const char* sc_tokens[] = {"*=",
                            ";",
                            ";",
                            "-integer value-",
+                           "-long value-",
                            "-float value-",
                            "-identifier-",
                            "-label-",
@@ -1639,10 +1641,13 @@ void Lexer::LexIntoToken(full_token_t* tok) {
 }
 
 bool Lexer::lex_number(full_token_t* tok) {
-    cell value = 0;
+    int64_t value = 0;
+    bool int64 = false;
 
     int base = 10;
     int ndigits = 0;
+    int sf = -1;
+    int first = -1;
     if (match_char('0')) {
         if (match_char('b'))
             base = 2;
@@ -1683,7 +1688,21 @@ bool Lexer::lex_number(full_token_t* tok) {
         if (c == '_')
             continue;
 
-        value = (value * base) + digit;
+        uint64_t old = value;
+        if (old > (uint64_t)(value = (value * base) + digit) && errors.ok())
+            report(446);
+
+        if (digit != 0 && sf == -1) {
+            sf = 1;
+            first = digit;
+        } else {
+            sf += sf > 0;
+            if ((sf > 20 || (sf == 20 && first > 1)) && errors.ok())
+                report(446);
+        }
+
+        if (value > UINT_MAX)
+            int64 = true;
         ndigits++;
     }
 
@@ -1691,6 +1710,11 @@ bool Lexer::lex_number(full_token_t* tok) {
     // number to lex.
     if (base == 10 && !ndigits)
         return false;
+
+    if (toupper(peek()) == 'L') {
+        advance();
+        int64 == true;
+    }
 
     if (alphanum(peek()))
         report(53);
@@ -1705,7 +1729,7 @@ bool Lexer::lex_number(full_token_t* tok) {
         backtrack();
     }
 
-    tok->id = tNUMBER;
+    tok->id = (int64 ? tLONG : tNUMBER);
     tok->numeric_value = value;
     return true;
 }

@@ -1028,6 +1028,8 @@ Parser::constant()
         case tCHAR_LITERAL:
         case tNUMBER:
             return new NumberExpr(pos, types_->type_int(), lexer_->current_token()->value());
+        case tLONG:
+            return new LongExpr(pos, types_->type_long(), lexer_->current_token()->value());
         case tRATIONAL:
             return new FloatExpr(cc_, pos, lexer_->current_token()->value());
         case tSTRING: {
@@ -1154,6 +1156,9 @@ Expr* Parser::struct_init() {
             case tCHAR_LITERAL:
             case tNUMBER:
                 expr = new NumberExpr(pos, types_->type_int(), lexer_->current_token()->value());
+                break;
+            case tLONG:
+                expr = new LongExpr(pos, types_->type_long(), lexer_->current_token()->value());
                 break;
             case tRATIONAL:
                 expr = new FloatExpr(cc_, pos, lexer_->current_token()->value());
@@ -2581,12 +2586,21 @@ Parser::parse_new_typename(const full_token_t* tok, TypenameInfo* out)
         case tSYMBOL:
             if (tok->id == tLABEL)
                 report(120);
+            if (tok->atom->str() == "long") {
+                *out = TypenameInfo{types_->type_long()};
+                return true;
+            }
             if (tok->atom->str() == "float") {
                 *out = TypenameInfo{types_->type_float()};
                 return true;
             }
             if (tok->atom->str() == "bool") {
                 *out = TypenameInfo{types_->type_bool()};
+                return true;
+            }
+            if (tok->atom->str() == "Long") {
+                report(98) << "Long" << "long";
+                *out = TypenameInfo{types_->type_float()};
                 return true;
             }
             if (tok->atom->str() == "Float") {

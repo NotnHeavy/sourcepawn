@@ -1169,17 +1169,25 @@ class TaggedValueExpr : public Expr
     static bool is_a(Expr* node) { return node->kind() == ExprKind::TaggedValueExpr; }
 
     Type* type() const { return type_; }
-    cell value() const { return value_; }
+    long long value() const { return value_; }
 
   protected:
     Type* type_;
-    cell value_;
+    long long value_;
 };
 
 class NumberExpr final : public TaggedValueExpr
 {
   public:
     NumberExpr(const token_pos_t& pos, Type* type, cell value)
+      : TaggedValueExpr(pos, type, value)
+    {}
+};
+
+class LongExpr final : public TaggedValueExpr
+{
+  public:
+    LongExpr(const token_pos_t& pos, Type* type, long long value)
       : TaggedValueExpr(pos, type, value)
     {}
 };

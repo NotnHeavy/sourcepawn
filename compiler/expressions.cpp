@@ -390,6 +390,9 @@ bool matchtag(Type* formal, Type* actual, int flags) {
     if (formal->isChar() && actual->isInt())
         return true;
 
+    if (formal->isLong() && actual->isInt())
+        return true;
+
     if (formal->isObject() || actual->isObject())
         return matchobjecttags(formal, actual, flags);
 
@@ -399,7 +402,7 @@ bool matchtag(Type* formal, Type* actual, int flags) {
         return false;
     }
 
-    // int coerces to bool/any.
+    // int coerces to bool/any/long.
     if ((flags & MATCHTAG_COERCE) && formal->isInt() && actual->coercesFromInt())
         return true;
 
@@ -445,8 +448,12 @@ bool matchtag(Type* formal, Type* actual, int flags) {
             return true;
     }
 
-    if (!(flags & MATCHTAG_SILENT))
-        report(213) << formal << actual;
+    if (!(flags & MATCHTAG_SILENT)) {
+        if (formal->isInt() && actual->isLong())
+            report(252) << actual << formal;
+        else
+            report(213) << formal << actual;
+    }
     return false;
 }
 

@@ -3006,7 +3006,8 @@ void ReportFunctionReturnError(FunctionDecl* decl) {
     if (decl->return_type()->isInt()) {
         report(decl, 209) << decl->name();
     } else if (decl->return_type()->isEnum() || decl->return_type()->isBool() ||
-               decl->return_type()->isFloat() || !decl->retvalue_used())
+               decl->return_type()->isFloat() || decl->return_type()->isLong() ||
+               !decl->retvalue_used())
     {
         report(decl, 242) << decl->name();
     } else {

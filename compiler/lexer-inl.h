@@ -32,7 +32,7 @@ StringToCells(const char* str, size_t len, const T& litadd)
     ucell val = 0;
     int byte = 0;
     for (size_t i = 0; i < len; i++) {
-        val |= (unsigned char)str[i] << (8 * byte);
+        val |= ((ucell_t)(str[i]) << (8 * byte));
         if (byte == sizeof(ucell) - 1) {
             litadd(val);
             val = 0;

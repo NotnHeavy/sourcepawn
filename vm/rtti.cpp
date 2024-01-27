@@ -155,6 +155,7 @@ RttiParser::decode()
   switch (type) {
   case cb::kBool:
   case cb::kInt32:
+  case cb::kInt64:
   case cb::kFloat32:
   case cb::kChar8:
   case cb::kAny:
@@ -242,6 +243,7 @@ RttiParser::validate()
   switch (type) {
   case cb::kBool:
   case cb::kInt32:
+  case cb::kInt64:
   case cb::kFloat32:
   case cb::kChar8:
   case cb::kAny:

@@ -67,6 +67,7 @@ enum class BuiltinType {
     Null,
     Any,
     Void,
+    Long,
 };
 
 enum class TypeKind : uint8_t {
@@ -242,6 +243,7 @@ class Type : public PoolObject
     bool isBuiltin() const { return kind_ == TypeKind::Builtin; }
     bool isBuiltin(BuiltinType type) const { return isBuiltin() && builtin_type_ == type; }
     bool isInt() const { return isBuiltin(BuiltinType::Int); }
+    bool isLong() const { return isBuiltin(BuiltinType::Long); }
     bool isNull() const { return isBuiltin(BuiltinType::Null); }
     bool isChar() const { return isBuiltin(BuiltinType::Char); }
     bool isAny() const { return isBuiltin(BuiltinType::Any); }
@@ -391,6 +393,7 @@ class TypeManager
     Type* type_string() const { return type_string_; }
     Type* type_char() const { return type_string_; }
     Type* type_int() const { return type_int_; }
+    Type* type_long() const { return type_long_; }
 
   private:
     Type* add(const char* name, TypeKind kind);
@@ -403,6 +406,7 @@ class TypeManager
     tr::unordered_map<Atom*, Type*> types_;
     std::vector<Type*> by_index_;
     Type* type_int_ = nullptr;
+    Type* type_long_ = nullptr;
     Type* type_object_ = nullptr;
     Type* type_null_ = nullptr;
     Type* type_function_ = nullptr;

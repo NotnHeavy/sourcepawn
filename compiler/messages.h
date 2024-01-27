@@ -278,6 +278,7 @@ static const char* warnmsg[] = {
     /*249*/ "function name is always true - possible missing parenthesis?\n",
     /*250*/ "pragma has no effect\n",
     /*251*/ "const variable was not initialized\n",
+    /*252*/ "coercing from %s to %s may lead to a loss of data\n",
 };
 
 static const char* errmsg_ex[] = {
@@ -327,4 +328,5 @@ static const char* errmsg_ex[] = {
     /*443*/ "enum %s already has a methodmap\n",
     /*444*/ "cannot find method \"%s.%s\"\n",
     /*445*/ "%s must be a field\n",
+    /*446*/ "integer constant is too large\n",
 };

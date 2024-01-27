@@ -124,6 +124,9 @@ TypeManager::init()
     type_int_ = defineBuiltin("int", BuiltinType::Int);
     types_.emplace(cc_.atom("_"), type_int_);
 
+    type_long_ = defineBuiltin("long", BuiltinType::Long);
+    types_.emplace(cc_.atom("Long"), type_long_);
+
     type_bool_ = defineBuiltin("bool", BuiltinType::Bool);
     type_any_ = defineBuiltin("any", BuiltinType::Any);
 

@@ -42,9 +42,9 @@ struct full_token_t {
     int id = 0;
     union {
         Atom* atom = nullptr;
-        int numeric_value; // Set on tRATIONAL, tNUMBER, and tCHAR_LITERAL.
+        int64_t numeric_value; // Set on tRATIONAL, tNUMBER, tLONG and tCHAR_LITERAL.
     };
-    int value();
+    int64_t value();
     token_pos_t start;
     const std::string& data() const {
         return atom->str();
@@ -210,6 +210,7 @@ enum TokenKind {
     tENDEXPR, /* forced end of expression */
     /* other recognized tokens */
     tNUMBER,   /* integer number */
+    tLONG,     /* 64-bit integer number */
     tRATIONAL, /* rational number */
     tSYMBOL,
     tLABEL,
@@ -225,8 +226,8 @@ enum TokenKind {
     tLAST_TOKEN_ID
 };
 
-inline int full_token_t::value() {
-    assert(id == tRATIONAL || id == tNUMBER || id == tCHAR_LITERAL);
+inline int64_t full_token_t::value() {
+    assert(id == tRATIONAL || id == tNUMBER || id == tLONG || id == tCHAR_LITERAL);
     return numeric_value;
 }
 

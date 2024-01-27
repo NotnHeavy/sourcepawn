@@ -683,6 +683,8 @@ uint8_t RttiBuilder::TypeToRttiBytecode(Type* type) {
         return cb::kFloat32;
     if (type->isInt())
         return cb::kInt32;
+    if (type->isLong())
+        return cb::kInt64;
     return 0;
 }
 

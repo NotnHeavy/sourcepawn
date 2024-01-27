@@ -1116,7 +1116,7 @@ CodeGenerator::EmitIndexExpr(IndexExpr* expr)
             /* normal array index */
             if (idxval.constval() != 0) {
                 /* don't add offsets for zero subscripts */
-                __ emit(OP_ADD_C, idxval.constval() << 2);
+                __ emit(OP_ADD_C, idxval.constval() * sizeof(cell_t));
             }
         } else {
             /* character index */
@@ -1168,7 +1168,7 @@ CodeGenerator::EmitFieldAccessExpr(FieldAccessExpr* expr)
 
     if (LayoutFieldDecl* field = expr->resolved()->as<LayoutFieldDecl>()) {
         if (field->offset()) {
-            __ const_alt(field->offset() << 2);
+            __ const_alt(field->offset() * sizeof(cell_t));
             __ emit(OP_ADD);
         }
     }
